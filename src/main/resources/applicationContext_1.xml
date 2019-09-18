@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:context="http://www.springframework.org/schema/context"
+	xmlns:aop="http://www.springframework.org/schema/aop"
+	xmlns:tx="http://www.springframework.org/schema/tx"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans
+		http://www.springframework.org/schema/beans/spring-beans.xsd
+		http://www.springframework.org/schema/context
+		http://www.springframework.org/schema/context/spring-context.xsd
+		http://www.springframework.org/schema/aop
+		http://www.springframework.org/schema/aop/spring-aop.xsd
+		http://www.springframework.org/schema/tx
+		http://www.springframework.org/schema/tx/spring-tx.xsd">
+
+	<!-- 注册student -->
+	<bean id="student" class="com.study.spring1.Student">
+		<!-- DI：set注入，要求bean有对应的set方法（一般都是用这种方式） -->
+		<property name="name" value="小万"></property>
+		<property name="age" value="22"></property>
+		
+		<!-- DI:构造注入，要求bean有对应的构造方法 -->
+		<!-- <constructor-arg name="name" value="小万"></constructor-arg> -->
+		<!-- <constructor-arg name="age" value="22"></constructor-arg> -->
+	</bean>
+
+
+</beans>

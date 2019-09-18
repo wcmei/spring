@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="utf-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:context="http://www.springframework.org/schema/context"
+	xmlns:aop="http://www.springframework.org/schema/aop"
+	xmlns:tx="http://www.springframework.org/schema/tx"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans
+		http://www.springframework.org/schema/beans/spring-beans.xsd
+		http://www.springframework.org/schema/context
+		http://www.springframework.org/schema/context/spring-context.xsd
+		http://www.springframework.org/schema/aop
+		http://www.springframework.org/schema/aop/spring-aop.xsd
+		http://www.springframework.org/schema/tx
+		http://www.springframework.org/schema/tx/spring-tx.xsd">
+
+	<!-- 注册student -->
+	
+	<!-- scope="singleton"	单例，默认的 -->
+	<!-- scope="prototype"	每次都获取一个新的对象 -->
+	<!-- scope="request"	每次请求都获取一个新的对象 -->
+	<!-- scope="session"	每次会话都获取一个新的对象 -->
+	
+	<!-- autowire="byName" 会从容器中查找与实体类的域属性同名的bean的id，并将该bean对象自动注入给该与属性 -->
+	<!-- autowire="byType" 会从容器中查找与实体类的域属性类型具有is-a关系的bean，并将该bean对象自动注入给该与属性 -->
+	<bean id="student" class="com.study.spring4.Student" scope="prototype" autowire="byName">
+		<property name="name" value="小万"></property>
+		<property name="age" value="22"></property>
+	</bean>
+	
+	<bean id="school" class="com.study.spring4.School"></bean>
+	
+	
+
+
+</beans>
