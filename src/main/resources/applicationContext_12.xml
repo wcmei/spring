@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="utf-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:context="http://www.springframework.org/schema/context"
+	xmlns:aop="http://www.springframework.org/schema/aop"
+	xmlns:tx="http://www.springframework.org/schema/tx"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans
+		http://www.springframework.org/schema/beans/spring-beans.xsd
+		http://www.springframework.org/schema/context
+		http://www.springframework.org/schema/context/spring-context.xsd
+		http://www.springframework.org/schema/aop
+		http://www.springframework.org/schema/aop/spring-aop.xsd
+		http://www.springframework.org/schema/tx
+		http://www.springframework.org/schema/tx/spring-tx.xsd">
+
+	<!-- 注册目标对象 -->
+	<bean id="student" class="com.study.spring12.Student"></bean>
+	<bean id="student2" class="com.study.spring12.Student"></bean>
+
+	<!-- 注册切面：前置通知 -->
+	<bean id="myMethodBeforeAdvice"
+		class="com.study.spring12.MyMethodBeforeAdvice"></bean>
+		
+	<!-- 注册切面：后置通知 -->
+	<bean id="myAfterReturningAdvice" class="com.study.spring12.MyAfterReturningAdvice"></bean>
+	
+	<!-- 注册切面：环绕通知 -->
+	<bean id="myMethodInterceptor" class="com.study.spring12.MyMethodInterceptor"></bean>
+	
+	<!-- 注册切面：异常通知 -->
+	<bean id="myThrowsAdvice" class="com.study.spring12.MyThrowsAdvice"></bean>
+	
+	<!-- 注册切面：顾问 -->
+	<bean id="myAdvisor" class="org.springframework.aop.support.RegexpMethodPointcutAdvisor">
+		<property name="advice" ref="myMethodInterceptor"></property>
+		<!-- 这里的正则表达式匹配的对象是全限定方法名 -->
+		<!-- 
+			.：表示任意单个字符
+			+：表示前一个字符出现一次或者多次
+			*：表示前面的字符出现0次或者多次 
+			|：表示或
+		-->
+		<!-- <property name="pattern" value=".*method1"></property> -->
+		<!-- <property name="patterns" value=".*method1,.*method2"></property> -->
+		<property name="pattern" value=".*method1|.*method2"></property>
+	</bean>
+	
+	<bean id="myAdvisor2" class="org.springframework.aop.support.RegexpMethodPointcutAdvisor">
+		<property name="advice" ref="myAfterReturningAdvice"></property>
+		<!-- 这里的正则表达式匹配的对象是全限定方法名 -->
+		<!-- 
+			.：表示任意单个字符
+			+：表示前一个字符出现一次或者多次
+			*：表示前面的字符出现0次或者多次 
+			|：表示或
+		-->
+		<!-- <property name="pattern" value=".*method1"></property> -->
+		<!-- <property name="patterns" value=".*method1,.*method2"></property> -->
+		<property name="pattern" value=".*method1|.*method2"></property>
+	</bean>
+	
+	<!-- 
+		注册默认自动代理生成器：该自动代理生成器只依赖于顾问切面（advisor），即如何没有指定顾问切面的话，是起不到任何作用的。 
+		缺点：无法对特定对象进行代理，即要么都代理要么都不代理。
+			也无法选择advisor，即所有的advisor都将被织入到目标对象上。
+	-->	
+	<bean class="org.springframework.aop.framework.autoproxy.DefaultAdvisorAutoProxyCreator"></bean>
+	
+</beans>

@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="utf-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:context="http://www.springframework.org/schema/context"
+	xmlns:aop="http://www.springframework.org/schema/aop"
+	xmlns:tx="http://www.springframework.org/schema/tx"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans
+		http://www.springframework.org/schema/beans/spring-beans.xsd
+		http://www.springframework.org/schema/context
+		http://www.springframework.org/schema/context/spring-context.xsd
+		http://www.springframework.org/schema/aop
+		http://www.springframework.org/schema/aop/spring-aop.xsd
+		http://www.springframework.org/schema/tx
+		http://www.springframework.org/schema/tx/spring-tx.xsd">
+
+	<!-- 注册数据源：spring内置连接池 -->
+	<bean id="myDataSource"
+		class="org.springframework.jdbc.datasource.DriverManagerDataSource">
+		<!-- 过时了 -->
+		<!-- <property name="driverClassName" value="com.mysql.jdbc.Driver"></property> -->
+		<property name="driverClassName"
+			value="com.mysql.cj.jdbc.Driver"></property>
+		<property name="url"
+			value="jdbc:mysql:///test?serverTimezone=UTC"></property>
+		<property name="username" value="root"></property>
+		<property name="password" value=""></property>
+	</bean>
+	
+	<!-- 注册属性文件 -->
+	<!-- <context:property-placeholder location="classpath:jdbc.properties"/> -->
+	
+	<!-- 注册JdbcTemplate -->
+	<!-- <bean id="jdbcTemplate"
+		class="org.springframework.jdbc.core.JdbcTemplate">
+		<property name="dataSource" ref="myDataSource"></property>
+	</bean> -->
+
+	<!-- 注册dao -->
+	<!-- <bean id="stuDao" class="com.springtest.StuDao">
+		<property name="jdbcTemplate" ref="jdbcTemplate"></property>
+	</bean> -->
+	
+	<!-- 不注册jdbcTemplate，直接在dao里面注入数据源，会自动创建jdbcTemplate。进入JdbcDaoSupport即可知道原因：里面对jdbcTemplate进行了判断，如果为空则创建 -->
+	<bean id="stuDao" class="com.springtest.StuDao">
+		<property name="dataSource" ref="myDataSource"></property>
+	</bean>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+</beans>

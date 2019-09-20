@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="utf-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:context="http://www.springframework.org/schema/context"
+	xmlns:aop="http://www.springframework.org/schema/aop"
+	xmlns:tx="http://www.springframework.org/schema/tx"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans
+		http://www.springframework.org/schema/beans/spring-beans.xsd
+		http://www.springframework.org/schema/context
+		http://www.springframework.org/schema/context/spring-context.xsd
+		http://www.springframework.org/schema/aop
+		http://www.springframework.org/schema/aop/spring-aop.xsd
+		http://www.springframework.org/schema/tx
+		http://www.springframework.org/schema/tx/spring-tx.xsd">
+
+	<!-- 注册目标对象 -->
+	<bean id="student" class="com.study.spring11.Student"></bean>
+
+	<!-- 注册切面：前置通知 -->
+	<bean id="myMethodBeforeAdvice"
+		class="com.study.spring11.MyMethodBeforeAdvice"></bean>
+		
+	<!-- 注册切面：后置通知 -->
+	<bean id="myAfterReturningAdvice" class="com.study.spring11.MyAfterReturningAdvice"></bean>
+	
+	<!-- 注册切面：环绕通知 -->
+	<bean id="myMethodInterceptor" class="com.study.spring11.MyMethodInterceptor"></bean>
+	
+	<!-- 注册切面：异常通知 -->
+	<bean id="myThrowsAdvice" class="com.study.spring11.MyThrowsAdvice"></bean>
+	
+	<!-- 注册切面：顾问 -->
+	<bean id="myAdvisor" class="org.springframework.aop.support.RegexpMethodPointcutAdvisor">
+		<property name="advice" ref="myMethodInterceptor"></property>
+		<!-- 这里的正则表达式匹配的对象是全限定方法名 -->
+		<!-- 
+			.：表示任意单个字符
+			+：表示前一个字符出现一次或者多次
+			*：表示前面的字符出现0次或者多次 
+			|：表示或
+		-->
+		<!-- <property name="pattern" value=".*method1"></property> -->
+		<!-- <property name="patterns" value=".*method1,.*method2"></property> -->
+		<property name="pattern" value=".*method1|.*method2"></property>
+	</bean>
+	
+	<bean id="myAdvisor2" class="org.springframework.aop.support.RegexpMethodPointcutAdvisor">
+		<property name="advice" ref="myAfterReturningAdvice"></property>
+		<!-- 这里的正则表达式匹配的对象是全限定方法名 -->
+		<!-- 
+			.：表示任意单个字符
+			+：表示前一个字符出现一次或者多次
+			*：表示前面的字符出现0次或者多次 
+			|：表示或
+		-->
+		<!-- <property name="pattern" value=".*method1"></property> -->
+		<!-- <property name="patterns" value=".*method1,.*method2"></property> -->
+		<property name="pattern" value=".*method1|.*method2"></property>
+	</bean>
+
+	<!-- 生成代理对象 -->
+	<bean id="myProxy"
+		class="org.springframework.aop.framework.ProxyFactoryBean">
+		<!-- <property name="targetName" value="student"></property> -->
+		<!-- 指定目标对象 -->
+		<property name="target" ref="student"></property>
+		<!-- 指定切面 -->
+		<!-- <property name="interceptorNames" value="myAdvisor"></property> -->
+		<property name="interceptorNames" value="myAdvisor,myAdvisor2"></property>
+	</bean>
+
+</beans>
